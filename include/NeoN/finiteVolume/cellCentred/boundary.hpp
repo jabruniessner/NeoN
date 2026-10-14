@@ -39,7 +39,7 @@ template<typename BoundaryType>
 std::vector<BoundaryType> createCalculatedBCs(const UnstructuredMesh& mesh)
 {
     std::vector<BoundaryType> bcs;
-    bcs.reserve(static_cast<sizeType>(mesh.nBoundaries()));
+    bcs.reserve(mesh.nBoundaries());
 
     for (localIdx patchID = 0; patchID < mesh.nBoundaries(); patchID++)
     {
@@ -53,7 +53,7 @@ template<typename BoundaryType>
 std::vector<BoundaryType> createCalculatedProcBCs(const UnstructuredMesh& mesh)
 {
     std::vector<BoundaryType> bcs;
-    bcs.reserve(static_cast<sizeType>(mesh.nBoundaries()));
+    bcs.reserve(mesh.nBoundaries());
     // Distributed-aware 'calculated': physical patches get the calculated BC (the value is computed
     // by an operator), but processor (coupled) patches must carry the processor halo-exchange BC so
     // that a single correctBoundaryConditions() fills their tail with the NEIGHBOUR cell value
