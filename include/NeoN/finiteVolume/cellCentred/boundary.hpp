@@ -123,7 +123,7 @@ template class fvcc::volumeBoundary::FixedEnergy<scalar>;
 template class fvcc::volumeBoundary::GradientEnergy<scalar>;
 
 template void fvcc::mapEnergyBoundaryFromTemperature<scalar>(
-    const Field<scalar>&, Field<scalar>&, scalar, scalar
+    const BoundaryData<scalar>&, BoundaryData<scalar>&, scalar, scalar
 );
 
 template class fvcc::volumeBoundary::Calculated<scalar>;
