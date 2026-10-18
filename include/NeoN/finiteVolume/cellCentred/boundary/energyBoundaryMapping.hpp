@@ -5,7 +5,7 @@
 #pragma once
 
 #include "NeoN/core/primitives/scalar.hpp"
-#include "NeoN/fields/field.hpp"
+#include "NeoN/fields/boundaryData.hpp"
 #include "NeoN/core/parallelAlgorithms.hpp"
 
 namespace NeoN::finiteVolume::cellCentred
@@ -36,28 +36,28 @@ namespace NeoN::finiteVolume::cellCentred
  * temperature-dependent Cv would need the per-face Cv as a Field rather than a scalar here --
  * out of scope for this constant-Cv implementation.
  *
- * Internal field values are untouched -- only the boundary (refValue/refGrad/valueFraction)
- * triple is mapped; call `he.correctBoundaryConditions()` afterward to materialise `value()`.
+ * Internal field values are untouched entirely -- this operates on boundary data only (it
+ * never needed a whole Field, just the refValue/refGrad/valueFraction triple), so it takes
+ * BoundaryData directly: call as
+ * `mapEnergyBoundaryFromTemperature(T.boundaryData(), he.boundaryData(), Cv, Tref)`. Call
+ * `he.correctBoundaryConditions()` afterward to materialise the values.
  */
 template<typename ValueType>
 void mapEnergyBoundaryFromTemperature(
-    const Field<ValueType>& temperature, Field<ValueType>& energy, scalar Cv, scalar Tref
+    const BoundaryData<ValueType>& temperature,
+    BoundaryData<ValueType>& energy,
+    scalar Cv,
+    scalar Tref
 )
 {
-    auto [heRefValue, heRefGrad, heValueFraction] = views(
-        energy.boundaryData().refValue(),
-        energy.boundaryData().refGrad(),
-        energy.boundaryData().valueFraction()
-    );
-    auto [TRefValue, TRefGrad, TValueFraction] = views(
-        temperature.boundaryData().refValue(),
-        temperature.boundaryData().refGrad(),
-        temperature.boundaryData().valueFraction()
-    );
+    auto [heRefValue, heRefGrad, heValueFraction] =
+        views(energy.refValue(), energy.refGrad(), energy.valueFraction());
+    auto [TRefValue, TRefGrad, TValueFraction] =
+        views(temperature.refValue(), temperature.refGrad(), temperature.valueFraction());
 
     NeoN::parallelFor(
         energy.exec(),
-        {0, energy.boundaryData().refValue().size()},
+        {0, energy.refValue().size()},
         NEON_LAMBDA(const localIdx i) {
             heRefValue[i] = Cv * (TRefValue[i] - Tref);
             heRefGrad[i] = Cv * TRefGrad[i];
