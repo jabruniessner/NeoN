@@ -36,7 +36,9 @@ TEST_CASE("mapEnergyBoundaryFromTemperature")
         NeoN::fill(T.boundaryData().refGrad(), 0.0);
         NeoN::fill(T.boundaryData().valueFraction(), 1.0); // Dirichlet-type
 
-        NeoN::finiteVolume::cellCentred::mapEnergyBoundaryFromTemperature(T, he, Cv, Tref);
+        NeoN::finiteVolume::cellCentred::mapEnergyBoundaryFromTemperature(
+            T.boundaryData(), he.boundaryData(), Cv, Tref
+        );
 
         auto heRefValue = he.boundaryData().refValue().copyToHost();
         auto heValueFraction = he.boundaryData().valueFraction().copyToHost();
@@ -59,7 +61,9 @@ TEST_CASE("mapEnergyBoundaryFromTemperature")
         NeoN::fill(T.boundaryData().refGrad(), 0.0);
         NeoN::fill(T.boundaryData().valueFraction(), 0.0); // Neumann-type
 
-        NeoN::finiteVolume::cellCentred::mapEnergyBoundaryFromTemperature(T, he, Cv, Tref);
+        NeoN::finiteVolume::cellCentred::mapEnergyBoundaryFromTemperature(
+            T.boundaryData(), he.boundaryData(), Cv, Tref
+        );
 
         auto heRefGrad = he.boundaryData().refGrad().copyToHost();
         auto heValueFraction = he.boundaryData().valueFraction().copyToHost();
@@ -79,7 +83,9 @@ TEST_CASE("mapEnergyBoundaryFromTemperature")
         NeoN::fill(T.boundaryData().refGrad(), 2.0);
         NeoN::fill(T.boundaryData().valueFraction(), 0.0);
 
-        NeoN::finiteVolume::cellCentred::mapEnergyBoundaryFromTemperature(T, he, Cv, Tref);
+        NeoN::finiteVolume::cellCentred::mapEnergyBoundaryFromTemperature(
+            T.boundaryData(), he.boundaryData(), Cv, Tref
+        );
 
         auto heRefGrad = he.boundaryData().refGrad().copyToHost();
         auto heRefGradView = heRefGrad.view();
@@ -112,7 +118,9 @@ TEST_CASE("mapEnergyBoundaryFromTemperature")
         T.boundaryData().refGrad() = NeoN::Vector<NeoN::scalar>(exec, refGradSeed);
         T.boundaryData().valueFraction() = NeoN::Vector<NeoN::scalar>(exec, fractionSeed);
 
-        NeoN::finiteVolume::cellCentred::mapEnergyBoundaryFromTemperature(T, he, Cv, Tref);
+        NeoN::finiteVolume::cellCentred::mapEnergyBoundaryFromTemperature(
+            T.boundaryData(), he.boundaryData(), Cv, Tref
+        );
 
         NeoN::Dictionary dict;
         std::vector<
