@@ -30,7 +30,9 @@ class SurfaceField;
  * Volume fields cover wall functions; the surface-scalar slot carries the face
  * flux phi consumed by flux-dependent BCs such as inletOutlet. Plain scalar values
  * (not fields) cover per-call solver state a BC needs but that has no field of its
- * own, such as the current timestep deltaT (consumed by waveTransmissive).
+ * own, such as the current timestep deltaT (consumed by waveTransmissive) or the
+ * current simulation time (consumed by a time-varying BC such as a sine-forced
+ * fixedValue).
  * All fields are stored as non-owning const pointers; the caller is responsible
  * for ensuring the lifetime of the referenced fields exceeds the context.
  */

@@ -25,6 +25,7 @@
 #include "boundary/volume/totalPressure.hpp"
 #include "boundary/volume/waveTransmissive.hpp"
 #include "boundary/volume/pressureInletOutletVelocity.hpp"
+#include "boundary/volume/sineFixedValue.hpp"
 
 #include "boundary/surface/empty.hpp"
 #include "boundary/surface/calculated.hpp"
