@@ -20,7 +20,7 @@
 - Add uniform mesh generator [#475](https://github.com/exasim-project/NeoN/pull/475)
 - Expose `BoundaryContext` to Python: `correct_boundary_conditions(ctx)` on scalar and Vec3 volume fields, plus a `(mesh, dict, patch_id)` constructor for volume boundaries, so context-aware BCs (`inletOutlet`, `totalPressure`, ...) work from Python instead of silently using their no-context fallback [#641](https://github.com/exasim-project/NeoN/pull/641)
 - Add distributed (processor-boundary) support: exact processor-face geometry and non-orthogonal corrected/limited snGrad correction, plus a one-time `set()` / per-iteration `update()` boundary-condition interface [#528](https://github.com/exasim-project/NeoN/pull/528)
-- Add a density-weighted `ddtFluxCorr(rho, U, phi, dt, scheme)` overload for compressible mass fluxes [#624](https://github.com/exasim-project/NeoN/pull/624)
+- Add a density-weighted `ddtFluxCorr(rho, U, phi, dt, scheme)` overload for compressible mass fluxes, and make `ddtFluxCorr` follow OpenFOAM's `fvcDdtPhiCorr` for BDF2 (one coupling coefficient) and on boundary faces (zero for the density-weighted overload) [#624](https://github.com/exasim-project/NeoN/pull/624)
 - Add DSL expression optimizer infrastructure for operator fusing [#452](https://github.com/exasim-project/NeoN/pull/452)
 - Add L1-norm stopping criterion [#538](https://github.com/exasim-project/NeoN/pull/538)
 - Add division operators (`field / field`, `field / scalar`, `scalar / field`) for scalar `SurfaceField`s in the Python bindings [#642](https://github.com/exasim-project/NeoN/pull/642)
