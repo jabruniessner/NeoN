@@ -17,6 +17,9 @@
 #include "boundary/volume/fixedGradient.hpp"
 #include "boundary/volume/sineFixedValue.hpp"
 #include "boundary/volume/fixedFluxPressure.hpp"
+#include "boundary/volume/fixedEnergy.hpp"
+#include "boundary/volume/gradientEnergy.hpp"
+#include "boundary/energyBoundaryMapping.hpp"
 #include "boundary/volume/symmetry.hpp"
 #include "boundary/volume/slip.hpp"
 #include "boundary/volume/pressureInletOutletVelocity.hpp"
@@ -122,6 +125,13 @@ template class fvcc::volumeBoundary::FixedGradient<scalar>;
 template class fvcc::volumeBoundary::FixedGradient<Vec3>;
 
 template class fvcc::volumeBoundary::FixedFluxPressure<scalar>;
+
+template class fvcc::volumeBoundary::FixedEnergy<scalar>;
+template class fvcc::volumeBoundary::GradientEnergy<scalar>;
+
+template void fvcc::mapEnergyBoundaryFromTemperature<scalar>(
+    const BoundaryData<scalar>&, BoundaryData<scalar>&, scalar, scalar
+);
 
 template class fvcc::volumeBoundary::Calculated<scalar>;
 template class fvcc::volumeBoundary::Calculated<Vec3>;
